@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+
+<script type="text/javascript" src="jquery-3.2.1.js"></script>
+<script type="text/javascript" src="angular.1.6.4.js"></script>
+<script type="text/javascript" src="angular-websocket.js"></script>
+
+<link rel="stylesheet" href="bootstrap.min.css">
+<link rel="stylesheet" href="bootstrap-theme.min.css" >
+<script src="bootstrap.min.js"></script>
+
+<script src="app.js"></script>
+</head>
+
+<body data-ng-app="stealer-log">
+	<div class="page-container" data-ng-controller="logCtrl">
+		<div>{{ theTime }}</div>
+		<div>{{ dns.length }}</div>
+
+		<table class="table" >
+			<thead>
+				<tr>
+					<td>date</td>
+					<td>hostname</td>
+					<td>request ip</td>
+					<td></td>
+					<td>actual ip</td>
+					<td>served ip</td>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr data-ng-repeat="o in data.dns" class="{{ o.servedIp | toTrClass }}">
+					<td>{{ o.date | toDate }}</td>
+					<td>{{ o.hostname }}</td>
+					<td>{{ o.requesterIp }}</td>
+					<td></td>
+					<td>{{ o.actualIp }}</td>
+					<td>{{ o.servedIp }}</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<table class="table">
+			<thead>
+				<tr>
+					<td>date</td>
+					<td>rule</td>
+					<td>action</td>
+					<td>protocol</td>
+					<td>source</td>
+					<td>destination</td>
+					<td>data.length</td>
+				</tr>
+			</thead>
+			<tbody>
+				<tr data-ng-repeat="o in data.firewall" class="{{ o.destinationAddress | toTrClass }}">
+					<td>{{ o.date | toDate }}</td>
+					<td>{{ o.ruleNumber }}.{{ o.subRuleNumber }}</td>
+					<td>{{ o.action }}</td>
+					<td>ipv{{ o.ipVersion }}, {{ o.protocolText }} ({{
+						o.protocolId }})</td>
+					<td>{{ o.sourceAddress }}:{{ o.sourcePort }}</td>
+					<td>{{ o.destinationAddress }}:{{ o.destPort }}</td>
+					<td>{{o.dataLength}} bytes</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+
+</html>

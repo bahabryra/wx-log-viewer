@@ -1,0 +1,18 @@
+server:
+  port: 8092
+  
+spring:
+  datasource:
+    name: storage
+    url: jdbc:mysql://localhost:3306/wx?useSSL=false
+    username: username
+    password: password
+  jpa:
+    database: mysql
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+wx:
+  log-command:
+    - cat
+    - /home/neptunium/Documents/java/wx-log-viewer/src/main/resources/log
