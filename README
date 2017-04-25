@@ -6,4 +6,6 @@ CREATE DATABASE wx;
 GRANT ALL ON wx.* TO 'neptunium'@'localhost';
 FLUSH PRIVILEGES;
 
-java -jar target/log-viewer-0.0.1-SNAPSHOT.jar --spring.datasource.username=username --spring.datasource.password=password -- 
+java -jar target/log-viewer-0.0.1-SNAPSHOT.jar \
+--spring.datasource.username=username \
+--spring.datasource.password=password 

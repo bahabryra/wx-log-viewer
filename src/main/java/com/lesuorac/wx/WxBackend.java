@@ -69,25 +69,10 @@ public class WxBackend {
                         rows.clear();
                         for (Object log : logs) {
                             if (log instanceof DnsMasqLog) {
-                                DnsMasqLog dnsLog = (DnsMasqLog) log;
-                                LOGGER.trace(
-                                        "Computer:[%s] attempted to lookup hostname:[%s] of actual ip:[%s] and was served:[%s]",
-                                        dnsLog.getRequesterIp(),
-                                        dnsLog.getHostname(),
-                                        dnsLog.getActualIp(),
-                                        dnsLog.getServedIp());
-                                this.dnsRepo.save(dnsLog);
+                                this.dnsRepo.save((DnsMasqLog) log);
 
                             } else if (log instanceof FirewallFilterLog) {
-                                FirewallFilterLog firewallLog = (FirewallFilterLog) log;
-                                LOGGER.trace(
-                                        "Computer:[%s] attempted to open a socket to [%s]:[%d] using protocol: [%s]=%d",
-                                        firewallLog.getSourceAddress(),
-                                        firewallLog.getDestinationAddress(),
-                                        firewallLog.getDestPort(),
-                                        firewallLog.getProtocolText(),
-                                        firewallLog.getProtocolId());
-                                this.firewallRepo.save(firewallLog);
+                                this.firewallRepo.save((FirewallFilterLog) log);
                             }
                         }
                         this.wsHandler.broadcast(logs);
@@ -96,8 +81,7 @@ public class WxBackend {
                     rows.add(this.logMessages.takeFirst());
                 }
             } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                LOGGER.error(e.getLocalizedMessage(), e);
             }
 
         });

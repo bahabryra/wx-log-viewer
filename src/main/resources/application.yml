@@ -14,5 +14,8 @@ spring:
       ddl-auto: update
 wx:
   log-command:
-    - cat
-    - /home/neptunium/Documents/java/wx-log-viewer/src/main/resources/log
+    - tail
+    - "-F"
+    - /var/log/syslog
+#    - cat
+#    - /home/neptunium/Documents/java/wx-log-viewer/src/main/resources/log

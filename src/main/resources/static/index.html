@@ -8,7 +8,7 @@
 <script type="text/javascript" src="angular-websocket.js"></script>
 
 <link rel="stylesheet" href="bootstrap.min.css">
-<link rel="stylesheet" href="bootstrap-theme.min.css" >
+<link rel="stylesheet" href="bootstrap-theme.min.css">
 <script src="bootstrap.min.js"></script>
 
 <script src="app.js"></script>
@@ -19,7 +19,7 @@
 		<div>{{ theTime }}</div>
 		<div>{{ dns.length }}</div>
 
-		<table class="table" >
+		<table class="table">
 			<thead>
 				<tr>
 					<td>date</td>
@@ -32,7 +32,9 @@
 			</thead>
 
 			<tbody>
-				<tr data-ng-repeat="o in data.dns" class="{{ o.servedIp | toTrClass }}">
+				<!-- NOTE: Be careful of using actualIp != servedIp for detecting blocked requests, can't dns queries be load balanced? -->
+				<tr data-ng-repeat="o in data.dns"
+					class="{{ o.servedIp | toTrClass }}">
 					<td>{{ o.date | toDate }}</td>
 					<td>{{ o.hostname }}</td>
 					<td>{{ o.requesterIp }}</td>
@@ -56,7 +58,8 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr data-ng-repeat="o in data.firewall" class="{{ o.destinationAddress | toTrClass }}">
+				<tr data-ng-repeat="o in data.firewall"
+					class="{{ o.destinationAddress | toTrClass }}">
 					<td>{{ o.date | toDate }}</td>
 					<td>{{ o.ruleNumber }}.{{ o.subRuleNumber }}</td>
 					<td>{{ o.action }}</td>

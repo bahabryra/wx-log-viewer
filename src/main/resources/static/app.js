@@ -55,7 +55,7 @@ var app = angular.module('stealer-log', ['angular-websocket'])
         $scope.theTime = new Date().toLocaleTimeString();
     }, 250);
 })
-.filter('toDate', () => (epoch) => new Date(epoch))
+.filter('toDate', () => (epoch) => (new Date(epoch)).toLocaleString())
 .filter('toTrClass', () => (destAddress) => {
 	if("192.168.1.9" == destAddress){
 		return "danger";

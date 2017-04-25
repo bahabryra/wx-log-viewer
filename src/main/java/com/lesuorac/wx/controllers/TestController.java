@@ -2,7 +2,6 @@ package com.lesuorac.wx.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lesuorac.wx.data.DnsRepository;
@@ -23,12 +22,6 @@ public class TestController {
         this.firewallRepo = firewallRepo;
 
         this.handler = handler;
-    }
-
-    @Scheduled(fixedDelay = 10000)
-    public void onScheduled() {
-        this.handler.broadcast(this.dnsRepo.findAll());
-        this.handler.broadcast(this.firewallRepo.findAll());
     }
 
 }
