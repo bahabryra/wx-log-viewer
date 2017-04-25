@@ -16,7 +16,7 @@
 
 <body data-ng-app="stealer-log">
 	<div class="page-container" data-ng-controller="logCtrl">
-		<div>{{ theTime }}</div>
+		<div>{{ theTime | toDate }}</div>
 		<div>{{ dns.length }}</div>
 
 		<table class="table">

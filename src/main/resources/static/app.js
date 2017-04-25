@@ -4,7 +4,7 @@ var app = angular.module('stealer-log', ['angular-websocket'])
 .factory('logData', $websocket => {
 	var dataStream = $websocket('ws://localhost:8092/ws');
 	
-	var data = { dns : [], firewall : []};
+	var data = { dns : [], firewall : [], theTime: new Date() };
 	
 	function addDns(dns){
 		var dnsLength = 12;
@@ -25,6 +25,7 @@ var app = angular.module('stealer-log', ['angular-websocket'])
 	}
 	
 	dataStream.onMessage(event => {
+		data.theTime = new Date();
 		var obj = JSON.parse(event.data);
 		
 		if(obj.type === 'DNS'){
@@ -40,20 +41,11 @@ var app = angular.module('stealer-log', ['angular-websocket'])
 		}
 	});
 	
-	var methods = {
-			data: data
-	}
-	
-	
-	return methods;
+	return data;
 })
 .controller('logCtrl', ($scope, $interval, logData) => {
-	$scope.data = logData.data;
-	$scope.theTime = new Date().toLocaleTimeString();
-	
-	$interval(function () {
-        $scope.theTime = new Date().toLocaleTimeString();
-    }, 250);
+	$scope.data = logData;
+	$scope.theTime = logData.theTime;
 })
 .filter('toDate', () => (epoch) => (new Date(epoch)).toLocaleString())
 .filter('toTrClass', () => (destAddress) => {
