@@ -1,3 +1,19 @@
+This jar is meant to be used with a multi-vm setup.
+
+1. pfsense vm that acts as the gateway for all of the VMs.
+This VM should be configured such
+- it acts as a DHCP server
+- it blocks all un-whitelisted traffic  
+- it is especially importantly to not allow the wx vm to make dns queries via anything but the dnsmasq vm
+
+2. linux vm with dnsmasq that acts as a dns server for all of the vms
+- if you don't have another vm that you want to use to control the pfsense vm may want to give this one a gui.
+- add a rule that converts all dns queries to an invalid ip (wildcard is #)
+-- manually add the dns queries to whatever hostnames you want to allow
+
+3. windows vm
+- I used it to play games so I set-up a pci passthrough ( https://forums.linuxmint.com/viewtopic.php?t=212692 )
+ 
 
 
 # mysql -u root -p
