@@ -52,13 +52,20 @@ public class DnsMasqLog extends Syslog {
     @Column(nullable = false)
     private String servedIp;
 
+    @Column(nullable = true)
+    private Long asn;
+
+    @Column(nullable = true)
+    private String aso;
+
     @Deprecated
     public DnsMasqLog() {
         super(LogType.DNS);
     }
 
     public DnsMasqLog(Timestamp date, String queryType, String hostname, String requesterIp, String actualIp,
-            String servedIp) {
+            String servedIp, Long asn, String aso) {
+
         this();
 
         this.date = date;
@@ -67,6 +74,8 @@ public class DnsMasqLog extends Syslog {
         this.requesterIp = requesterIp;
         this.actualIp = actualIp;
         this.servedIp = servedIp;
+        this.asn = asn;
+        this.aso = aso;
     }
 
     /**
@@ -169,6 +178,40 @@ public class DnsMasqLog extends Syslog {
      */
     public final void setServedIp(String servedIp) {
         this.servedIp = servedIp;
+    }
+
+    /**
+     * @return the asn
+     * @see #bare_field_name
+     */
+    public final Long getAsn() {
+        return this.asn;
+    }
+
+    /**
+     * @param asn
+     *            the asn to set
+     * @see #bare_field_name
+     */
+    public final void setAsn(Long asn) {
+        this.asn = asn;
+    }
+
+    /**
+     * @return the aso
+     * @see #bare_field_name
+     */
+    public final String getAso() {
+        return this.aso;
+    }
+
+    /**
+     * @param aso
+     *            the aso to set
+     * @see #bare_field_name
+     */
+    public final void setAso(String aso) {
+        this.aso = aso;
     }
 
 }

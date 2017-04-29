@@ -11,14 +11,28 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.lesuorac.wx.data.DnsMasqLog;
+import com.lesuorac.wx.data.Ipv4Data;
+import com.lesuorac.wx.data.Ipv4Repository;
 
 @Component
 public class DnsMasqLogParser implements RsyslogParser<DnsMasqLog> {
 
     private static final Pattern queryPattern = Pattern.compile("query\\[(.*)\\]", Pattern.CASE_INSENSITIVE);
+
+    private static final Logger LOGGER = LogManager.getFormatterLogger();
+
+    private Ipv4Repository ipv4Repo;
+
+    @Autowired
+    public DnsMasqLogParser(Ipv4Repository ipv4Repo) {
+        this.ipv4Repo = ipv4Repo;
+    }
 
     @Override
     public List<DnsMasqLog> parse(List<String> rows) {
@@ -86,7 +100,22 @@ public class DnsMasqLogParser implements RsyslogParser<DnsMasqLog> {
             throw new ParseException(String.format("Given hostname:[%s] was not valid", hostname), row1Counter);
         }
 
-        return new DnsMasqLog(Timestamp.valueOf(date), queryType, hostname, requesterIp, actualIp, servedIp);
+        String aso = "";
+        Long asn = 0L;
+
+        try {
+            Ipv4Data ipv4data = this.ipv4Repo.findByIpLike(this.ipv4Repo.convertAddressToBits(actualIp));
+
+            if (ipv4data != null) {
+                aso = ipv4data.getAso();
+                asn = ipv4data.getAsn();
+            }
+
+        } catch (Throwable e) {
+            LOGGER.error("Problem parsing address: [%s]", actualIp, e);
+        }
+
+        return new DnsMasqLog(Timestamp.valueOf(date), queryType, hostname, requesterIp, actualIp, servedIp, asn, aso);
     }
 
 }

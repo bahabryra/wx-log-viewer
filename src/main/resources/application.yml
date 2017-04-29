@@ -5,13 +5,24 @@ spring:
   datasource:
     name: storage
     url: jdbc:mysql://localhost:3306/wx?useSSL=false
-    username: username
+    username: neptunium
     password: password
   jpa:
     database: mysql
     generate-ddl: true
     hibernate:
       ddl-auto: update
+
+endpoints:
+  actuator:
+    enabled: true
+    sensitive: false
+    
+    
+management:
+  security:
+    enabled: false
+
 wx:
   log-command:
     - tail

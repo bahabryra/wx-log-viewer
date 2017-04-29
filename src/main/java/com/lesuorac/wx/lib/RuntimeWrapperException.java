@@ -1,5 +1,11 @@
 package com.lesuorac.wx.lib;
 
+/**
+ * This class is meant to catch exceptions thrown by a lambda and rethrow it as
+ * a run time exception so that functions that can't accept throwables (i.e.
+ * anything with Streams) can still easily be used.
+ *
+ */
 public class RuntimeWrapperException extends RuntimeException {
 
     /**

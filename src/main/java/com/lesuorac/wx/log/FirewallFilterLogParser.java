@@ -7,11 +7,16 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.lesuorac.wx.common.FilterAction;
 import com.lesuorac.wx.common.FilterDirection;
 import com.lesuorac.wx.data.FirewallFilterLog;
+import com.lesuorac.wx.data.Ipv4Data;
+import com.lesuorac.wx.data.Ipv4Repository;
 
 @Component
 public class FirewallFilterLogParser implements RsyslogParser<FirewallFilterLog> {
@@ -19,6 +24,15 @@ public class FirewallFilterLogParser implements RsyslogParser<FirewallFilterLog>
     public static final int TCP_PROTOCOL = 6;
 
     public static final int UDP_PROTOCOL = 17;
+
+    private static final Logger LOGGER = LogManager.getFormatterLogger();
+
+    private Ipv4Repository ipv4Repo;
+
+    @Autowired
+    public FirewallFilterLogParser(Ipv4Repository ipv4Repo) {
+        this.ipv4Repo = ipv4Repo;
+    }
 
     @Override
     public List<FirewallFilterLog> parse(List<String> rows) {
@@ -131,6 +145,21 @@ public class FirewallFilterLogParser implements RsyslogParser<FirewallFilterLog>
                     logCounter);
         }
 
+        String destAso = "";
+        Long destAsn = 0L;
+
+        try {
+            Ipv4Data ipv4data = this.ipv4Repo.findByIpLike(this.ipv4Repo.convertAddressToBits(destinationAddress));
+
+            if (ipv4data != null) {
+                destAso = ipv4data.getAso();
+                destAsn = ipv4data.getAsn();
+            }
+
+        } catch (Throwable e) {
+            LOGGER.error("Problem parsing address: [%s]", destinationAddress, e);
+        }
+
         return new FirewallFilterLog(
                 Timestamp.valueOf(date),
                 ruleNumber,
@@ -146,7 +175,9 @@ public class FirewallFilterLogParser implements RsyslogParser<FirewallFilterLog>
                 destinationAddress,
                 sourcePort,
                 destPort,
-                dataLength);
+                dataLength,
+                destAsn,
+                destAso);
     }
 
 }

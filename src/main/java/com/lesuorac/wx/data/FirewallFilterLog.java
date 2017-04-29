@@ -69,6 +69,12 @@ public class FirewallFilterLog extends Syslog {
     @Column(nullable = false)
     private int dataLength;
 
+    @Column(nullable = true)
+    private Long destAsn;
+
+    @Column(nullable = true)
+    private String destAso;
+
     @Deprecated
     public FirewallFilterLog() {
         super(LogType.FIREWALL);
@@ -76,7 +82,8 @@ public class FirewallFilterLog extends Syslog {
 
     public FirewallFilterLog(Timestamp date, long ruleNumber, long subRuleNumber, String realInterface,
             FilterAction action, FilterDirection direction, int ipVersion, int protocolId, String protocolText,
-            int length, String sourceAddress, String destinationAddress, int sourcePort, int destPort, int dataLength) {
+            int length, String sourceAddress, String destinationAddress, int sourcePort, int destPort, int dataLength,
+            Long destAsn, String destAso) {
         this();
 
         this.date = date;
@@ -94,6 +101,8 @@ public class FirewallFilterLog extends Syslog {
         this.sourcePort = sourcePort;
         this.destPort = destPort;
         this.dataLength = dataLength;
+        this.destAsn = destAsn;
+        this.destAso = destAso;
     }
 
     /**
@@ -349,6 +358,40 @@ public class FirewallFilterLog extends Syslog {
      */
     public final void setDataLength(int dataLength) {
         this.dataLength = dataLength;
+    }
+
+    /**
+     * @return the destAsn
+     * @see #bare_field_name
+     */
+    public final Long getDestAsn() {
+        return this.destAsn;
+    }
+
+    /**
+     * @param destAsn
+     *            the destAsn to set
+     * @see #bare_field_name
+     */
+    public final void setDestAsn(Long destAsn) {
+        this.destAsn = destAsn;
+    }
+
+    /**
+     * @return the destAso
+     * @see #bare_field_name
+     */
+    public final String getDestAso() {
+        return this.destAso;
+    }
+
+    /**
+     * @param destAso
+     *            the destAso to set
+     * @see #bare_field_name
+     */
+    public final void setDestAso(String destAso) {
+        this.destAso = destAso;
     }
 
 }

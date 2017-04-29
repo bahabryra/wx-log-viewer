@@ -27,7 +27,7 @@ public class LogWebSocketConfigurer implements WebSocketConfigurer {
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(this.sharedHandler, "/ws");
+        registry.addHandler(this.sharedHandler, "/ws").setAllowedOrigins("*");
     }
 
 }
