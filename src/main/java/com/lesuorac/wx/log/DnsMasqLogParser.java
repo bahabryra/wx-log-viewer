@@ -40,7 +40,7 @@ public class DnsMasqLogParser implements RsyslogParser<DnsMasqLog> {
         for (int i = 0; (i + 1) < rows.size(); i++) {
             try {
                 logs.add(parse(rows.get(i), rows.get(i + 1)));
-            } catch (ParseException e) {
+            } catch (ParseException | ArrayIndexOutOfBoundsException e) {
                 /*
                  * Most log messages aren't going to be from the dnsmasq daemon
                  */

@@ -40,7 +40,7 @@ public class FirewallFilterLogParser implements RsyslogParser<FirewallFilterLog>
         for (String row : rows) {
             try {
                 logs.add(parse(row));
-            } catch (ParseException e) {
+            } catch (ParseException | ArrayIndexOutOfBoundsException e) {
                 /*
                  * Most log messages aren't going to be from the pfsense
                  * firewall

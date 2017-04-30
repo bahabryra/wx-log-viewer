@@ -23,6 +23,7 @@
 			<thead>
 				<tr>
 					<td>date</td>
+					<td></td>
 					<td>hostname</td>
 					<td>request ip</td>
 					<td></td>
@@ -36,6 +37,7 @@
 				<tr data-ng-repeat="o in data.dns"
 					class="{{ o.servedIp | toTrClass }}">
 					<td>{{ o.date | toDate }}</td>
+					<td><button data-ng-click='ignoreDns(o.hostname)'>HIDE</button></td>
 					<td>{{ o.hostname }}</td>
 					<td>{{ o.requesterIp }}</td>
 					<td></td>
@@ -49,6 +51,7 @@
 			<thead>
 				<tr>
 					<td>date</td>
+					<td></td>
 					<td>rule</td>
 					<td>action</td>
 					<td>protocol</td>
@@ -59,8 +62,9 @@
 			</thead>
 			<tbody>
 				<tr data-ng-repeat="o in data.firewall"
-					class="{{ o.destinationAddress | toTrClass }}">
+					class="{{ o.action | toTrClass }}">
 					<td>{{ o.date | toDate }}</td>
+					<td><button data-ng-click='ignoreFirewall(o.destinationAddress)'>HIDE</button></td>
 					<td>{{ o.ruleNumber }}.{{ o.subRuleNumber }}</td>
 					<td>{{ o.action }}</td>
 					<td>ipv{{ o.ipVersion }}, {{ o.protocolText }} ({{
