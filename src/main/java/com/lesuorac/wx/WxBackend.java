@@ -107,6 +107,8 @@ public class WxBackend {
                 while (line != null && (this.runningThreads.get() == 2) && !Thread.interrupted()) {
                     this.logMessages.addLast(line);
                     line = reader.readLine();
+
+                    LOGGER.info("Read line: [%s]", line);
                 }
 
                 LOGGER.fatal("InputStreamThread terminated due to eof");

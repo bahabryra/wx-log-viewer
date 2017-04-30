@@ -2,7 +2,7 @@ var globallObj = {};
 
 var app = angular.module('stealer-log', ['angular-websocket'])
 .factory('logData', $websocket => {
-	var dataStream = $websocket('ws://localhost:8092/ws');
+	var dataStream = $websocket('ws://'+window.location.hostname+':8092/ws');
 	
 	var data = { dns : [], firewall : [], theTime: new Date() };
 	
